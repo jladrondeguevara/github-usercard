@@ -6,9 +6,7 @@
 
 axios.get('https://api.github.com/users/jladrondeguevara')
 .then(response => {
-  // response.data.login.forEach(logIn => {
-  //   const newCard = gitUserCard(logIn)
-  // })
+  cardMaker(response.data);
 })
 
 
@@ -25,9 +23,10 @@ axios.get('https://api.github.com/users/jladrondeguevara')
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
+const cards = document.querySelector('.cards');
+
 const gitUserCard = (login) => {
   const newCard = document.createElement('div');
-  const cards = document.querySelector('.cards');
   cards.appendChild(newCard);
   return newCard
 }
@@ -55,6 +54,7 @@ followersArray.forEach(url => {
   axios.get(`https://api.github.com/users/${url}`)
   .then(response => {
     cards.appendChild(cardMaker(response.data))
+    console.log(response.data);
   })
 })
 
@@ -101,11 +101,13 @@ const cardMaker = (data) => {
   cardGitLink.setAttribute('href', data.html_url)
 
   // adding textcontent
-  cardLocation.textContent = 'Location: ';
-  cardProfileParagraph.textContent = 'Profile: ';
-  cardFollowers.textContent = 'Followers: ';
-  cardFollowing.textContent = 'Following';
-  cardBio.textContent = 'Bio: '
+  cardLocation.textContent = `Location: ${data.location}`;
+  cardProfileParagraph.textContent = `Profile: `;
+  cardFollowers.textContent = `Followers: ${data.followers}`;
+  cardFollowing.textContent = `Following: ${data.following}`;
+  cardGitLink.textContent = data.html_url;
+  cardBio.textContent = `Bio: ${data.bio}`
+
 
 
   //defining hierarchy
