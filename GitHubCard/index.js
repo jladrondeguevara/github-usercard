@@ -4,6 +4,16 @@
     https://api.github.com/users/<your name>
 */
 
+axios.get('https://api.github.com/users/jladrondeguevara')
+.then(response => {
+  console.log(response.data.login)
+  response.data.login.forEach(login => {
+    const newCard = gitUserCard(login)
+  })
+})
+
+
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -16,7 +26,12 @@
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
-
+const gitUserCard = (login) => {
+  const newCard = document.createElement('div')
+  const cards = document.querySelector('.cards');
+  cards.appendChild(newCard);
+  return newCard
+}
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -29,6 +44,8 @@
 */
 
 const followersArray = [];
+
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
