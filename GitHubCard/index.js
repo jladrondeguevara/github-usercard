@@ -6,10 +6,9 @@
 
 axios.get('https://api.github.com/users/jladrondeguevara')
 .then(response => {
-  console.log(response.data.login)
-  response.data.login.forEach(login => {
-    const newCard = gitUserCard(login)
-  })
+  // response.data.login.forEach(logIn => {
+  //   const newCard = gitUserCard(logIn)
+  // })
 })
 
 
@@ -27,11 +26,12 @@ axios.get('https://api.github.com/users/jladrondeguevara')
     and append the returned markup to the DOM as a child of .cards
 */
 const gitUserCard = (login) => {
-  const newCard = document.createElement('div')
+  const newCard = document.createElement('div');
   const cards = document.querySelector('.cards');
   cards.appendChild(newCard);
   return newCard
 }
+
 /*
   STEP 5: Now that you have your own card getting added to the DOM, either
     follow this link in your browser https://api.github.com/users/<Your github name>/followers,
@@ -45,6 +45,18 @@ const gitUserCard = (login) => {
 
 const followersArray = [];
 
+followersArray[0] = 'tetondan';
+followersArray[1] = 'dustinmyers';
+followersArray[2] = 'justsml';
+followersArray[3] = 'luishrd';
+followersArray[4] = 'bigknell';
+
+followersArray.forEach(url => {
+  axios.get(`https://api.github.com/users/${url}`)
+  .then(response => {
+    cards.appendChild(cardMaker(response.data))
+  })
+})
 
 
 /*
@@ -66,6 +78,49 @@ const followersArray = [];
       </div>
     </div>
 */
+
+const cardMaker = (data) => {
+  const cardDiv = document.createElement('div')
+  const image = document.createElement('img')
+  const cardInfoDiv = document.createElement('div')
+  const cardTitle = document.createElement('h3')
+  const cardUsername = document.createElement('p')
+  const cardLocation = document.createElement('p')
+  const cardProfileParagraph = document.createElement('p')
+  const cardGitLink = document.createElement('a')
+  const cardFollowers = document.createElement('p')
+  const cardFollowing = document.createElement('p')
+  const cardBio = document.createElement('p')
+
+  //adding class names and attributes
+  cardDiv.classList.add('card')
+  image.setAttribute('src', data.avatar_url)
+  cardInfoDiv.classList.add('card-info')
+  cardTitle.classList.add('name')
+  cardUsername.classList.add('username')
+  cardGitLink.setAttribute('href', data.html_url)
+
+  // adding textcontent
+  cardLocation.textContent = 'Location: ';
+  cardProfileParagraph.textContent = 'Profile: ';
+  cardFollowers.textContent = 'Followers: ';
+  cardFollowing.textContent = 'Following';
+  cardBio.textContent = 'Bio: '
+
+
+  //defining hierarchy
+  cardDiv.appendChild(image);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(cardTitle);
+  cardInfoDiv.appendChild(cardUsername);
+  cardInfoDiv.appendChild(cardLocation);
+  cardInfoDiv.appendChild(cardProfileParagraph);
+  cardProfileParagraph.appendChild(cardGitLink);
+  cardInfoDiv.appendChild(cardFollowers);
+  cardInfoDiv.appendChild(cardFollowing);
+  cardInfoDiv.appendChild(cardBio);
+  return cardDiv;
+}
 
 /*
   List of LS Instructors Github username's:
