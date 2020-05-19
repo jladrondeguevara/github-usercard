@@ -3,10 +3,10 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+const cards = document.querySelector('.cards');
 axios.get('https://api.github.com/users/jladrondeguevara')
 .then(response => {
-  cardMaker(response.data);
+  cards.appendChild(cardMaker(response.data));
 })
 
 
@@ -23,7 +23,7 @@ axios.get('https://api.github.com/users/jladrondeguevara')
   STEP 4: Pass the data received from Github into your function,
     and append the returned markup to the DOM as a child of .cards
 */
-const cards = document.querySelector('.cards');
+
 
 const gitUserCard = (login) => {
   const newCard = document.createElement('div');
